@@ -4,6 +4,9 @@ import fs from "fs";
 import parseBill from "./lib/parseBill";
 import { CallList } from "./lib/callList";
 
+const dir = "./uploads";
+if (!fs.existsSync(dir)) fs.mkdirSync(dir);
+
 const router = express.Router();
 
 const storage = multer.diskStorage({
@@ -25,9 +28,9 @@ router.put("/upload", upload.single("phoneBill"), function (req, res, next) {
   console.log("totalCost : ", callList.totalCost(), "cents");
 
   const dataForClient = {
-     totalCallList: callList.totalCallList, totalCost: callList.totalCost() 
+    totalCallList: callList.totalCallList,
+    totalCost: callList.totalCost(),
   };
-  //console.log(JSON.stringify(dataForClient));
   res.send(JSON.stringify(dataForClient));
 });
 
