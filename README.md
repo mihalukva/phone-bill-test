@@ -1,46 +1,30 @@
-# Getting Started with Create React App
+# quick start
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+start server
+```js
+node server/dist/index.js
+```
 
-## Available Scripts
+load page
+http://localhost:4000/
 
-In the project directory, you can run:
+# test description
 
-### `npm start`
+Your monthly phone bill has just arrived, and it's unexpectedly large. You decide to verify the amount by recalculating the bill based on your phone call logs and the phone company's charges.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+00:01:07,400-234-090 
+00:05:01,701-080-080 
+00:03:01,201-211-345 
+00:05:00,400-234-090
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+The example above is a sample of the phone logs, which can be an input file to your script. Each line in the logs describes one phone call using the following format: "hh:mm:ss,nnn-nnn- nnn", where "hh:mm:ss" denotes the duration of the call (in "hh" hours, "mm" minutes and "ss" seconds) and "nnn-nnn-nnn" denotes the 9-digit phone number of the recipient (with no leading zeros).
 
-### `npm test`
+Each call is billed separately. The billing rules are as follows:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+If the call was shorter than 5 minutes, then you pay 3 cents for every started second of the call (e.g. for duration "00:01:07" you pay 67 * 3 = 201 cents).
 
-### `npm run build`
+If the call was at least 5 minutes long, then you pay 150 cents for every started minute of the call (e.g. for duration "00:05:00" you pay 5  150 = 750 cents and for duration "00:05:01" you pay 6  150 = 900 cents).
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+All calls to the phone number that has the longest total duration of calls are free. In the case of a tie, if more than one phone number shares the longest total duration, the promotion is applied only to the phone number whose numerical value is the smallest among these phone numbers.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+Write a NodeJS script to calculate and print the total bill amount for any given phone logs. Front-end part to upload csv & show results nicely - React or Angular.
