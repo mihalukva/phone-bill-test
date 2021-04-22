@@ -6,7 +6,7 @@ export class Call {
     const [duration, number] = call.split(",");
     const [hour, min, sec] = duration.split(":");
     this.duration = { hour: +hour, min: +min, sec: +sec };
-    this.number = +number.replaceAll("-", "");
+    this.number = +number.replace(/-/g, "");
   }
   durationInSec(): number {
     return this.duration.hour * 60 * 60 + this.duration.min * 60 + this.duration.sec;

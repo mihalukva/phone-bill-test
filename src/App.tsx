@@ -1,26 +1,35 @@
-import React from "react";
-import logo from "./logo.svg";
-import "./App.css";
-import { callBill } from "./mocks/callBill";
-import { Call } from "./lib/call";
-import { CallList } from "./lib/callList";
-import  SelectFile  from "./components/selectFile";
-function parseBill(bill: string) {
-  let regexp = /\d\d:\d\d:\d\d,\d\d\d-\d\d\d-\d\d\d/g;
-  let callListStr: any = bill.match(regexp);
-  const callListArr: Array<Call> = callListStr.map((item: string) => {
-    return new Call(item);
-  });
-  const callList: CallList = new CallList(callListArr);
-  console.log(callList.totalCost());
-}
+import { useState } from "react";
+import "./App.scss";
+import SelectFile from "./components/selectFile";
+import IAggregatePhoneBill from "./interfaces/IAggregatePhoneBill";
+import Table from "./components/billTable";
+import uploadBill from "./services/uploadBill";
+
+const aggregatePhoneBillDefault: IAggregatePhoneBill = {
+  totalCallList: [],
+  totalCost: 0,
+};
 
 function App() {
-  parseBill(callBill);
+  const [table, setTable] = useState({ aggregatePhoneBill: aggregatePhoneBillDefault });
+  function onUpload(file: any) {
+    uploadBill(file).then((response: IAggregatePhoneBill) => {
+      setTable({ aggregatePhoneBill: response });
+    });
+  }
+
   return (
     <div className="App">
-      {/* <header className="App-header"></header> */}
-      <SelectFile />
+      <header>
+        <SelectFile onUpload={onUpload} />
+      </header>
+      <main>
+        <Table list={table.aggregatePhoneBill.totalCallList} />
+
+        <div className="alert alert-dark" role="alert">
+          Total cost: {table.aggregatePhoneBill.totalCost} cents
+        </div>
+      </main>
     </div>
   );
 }

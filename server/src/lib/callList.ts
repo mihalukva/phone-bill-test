@@ -3,10 +3,8 @@ import { Call } from "./call";
 export class CallList {
   totalCallList: Array<TotalCall> = [];
   constructor(private list: Array<Call> = []) {
-    console.log(list);
     this.totalCallList = this.aggregate(list);
     this.sort();
-    console.log(this.totalCallList);
   }
   private aggregate(list: Array<Call>): Array<TotalCall> {
     let totalCallList: Array<TotalCall> = [];
@@ -42,7 +40,6 @@ export class CallList {
   }
   totalCost() {
     let cost = 0;
-    console.log(this.totalCallList.length);
     for (let i = 1; i < this.totalCallList.length; i++) {
       cost += this.totalCallList[i].cost;
     }
